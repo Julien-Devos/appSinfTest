@@ -5,22 +5,27 @@ module.exports = {
         const months = ["Janv.","Févr.","Mars","Avr.","Mai","Juin","Juill.","Août","Sep.","Oct.","Nov.","Déc."];
 
         const diffTime = Math.abs(currDate - postDate);
-        const diffDays = (diffTime / (1000 * 60 * 60 * 24));
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffHrs = Math.floor(diffTime / (1000 * 60 * 60));
+        const diffMin = Math.floor(diffTime / (1000 * 60));
+        const diffSec = Math.floor(diffTime / 1000);
 
-        if (diffDays < 1){
+        console.log(diffHrs,diffSec);
+
+        if (diffHrs < 24){
             let postHrs = postDate.toLocaleString('fr-BE').split(",")[1].split(':');
             let currHrs = currDate.toLocaleString('fr-BE').split(",")[1].split(':');
 
-            if (postHrs[0] === currHrs[0] && postHrs[1] === currHrs[1]){
-                let secDiff = Math.round(currHrs[2] - postHrs[2]);
+            if (diffSec < 60){
+                let secDiff = Math.round(diffSec);
                 return "Il y a " + secDiff + "s";
             }
-            else if (postHrs[0] === currHrs[0] && postHrs[1] !== currHrs[1]){
-                let minDiff = Math.round(currHrs[1] - postHrs[1]);
+            else if (diffMin < 60){
+                let minDiff = Math.round(diffMin);
                 return ("Il y a " + minDiff + " min.");
             }
-            else if (postHrs[0] !== currHrs[0]){
-                let hrsDiff = Math.round(currHrs[0] - postHrs[0]);
+            else {
+                let hrsDiff = Math.round(diffHrs);
                 return ("Il y a " + hrsDiff + "h");
             }
         }
@@ -32,7 +37,7 @@ module.exports = {
 
             return (day + " " + month + " " + year);
         }
-        else if (diffDays >= 1){
+        else{
             let dateString = postDate.toLocaleString('fr-BE').split(",")[0].split('/');
             let day = dateString[0];
             let month = months[dateString[1] - 1];
