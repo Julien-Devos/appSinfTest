@@ -6,14 +6,15 @@ const session = require('express-session');
 const bodyParser = require("body-parser");
 const https = require('https');
 const fs = require('fs');
+const mongoose = require('mongoose')
 
 
-let app = express ();
-const port = 8080;
+let oldApp = express ();
+const port = 8090;
 
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
+oldApp.use(bodyParser.urlencoded({ extended: true }));
+oldApp.use(session({
     secret: "randompass",
     resave: false,
     saveUninitialized: true,
@@ -25,14 +26,14 @@ app.use(session({
 }));
 
 
-app.engine ( 'html', consolidate.hogan );
-app.set('views', __dirname + '/private');
-app.use(express.static(__dirname + '/static'));
-app.use(favicon(__dirname + '/static/img/logos/favicon.ico'));
+oldApp.engine ( 'html', consolidate.hogan );
+oldApp.set('views', __dirname + '/private');
+oldApp.use(express.static(__dirname + '/static'));
+oldApp.use(favicon(__dirname + '/static/img/logos/favicon.ico'));
 
 
 // Connect to the db and wait for requests
-MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
+mongoose.connect('mongodb://localhost:27017/', function(err, db) {
     if (err) throw err;
 
     let dataBase = db.db("finalAppSinf");
@@ -94,7 +95,7 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
 
 
     // GET request for "/"
-    app.get('/', function(req, res) {
+    oldApp.get('/', function(req, res) {
 
         posts(function (posts,games){
             let data = {
@@ -108,7 +109,7 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
     });
 
 
-    app.get('/add-post', function(req, res) {
+    oldApp.get('/add-post', function(req, res) {
 
         let data = {
             "logged" : true
@@ -117,7 +118,7 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
 
     });
 
-    app.get('/post', function(req, res) {
+    oldApp.get('/post', function(req, res) {
 
         posts(function (posts,games,comments){
             let data = {
@@ -131,7 +132,7 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
 
     });
 
-    app.get('/posts', function(req, res) {
+    oldApp.get('/posts', function(req, res) {
 
         let data = {
             "logged" : true
@@ -142,7 +143,7 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
 
     });
 
-    app.get('/user-profile', function(req, res) {
+    oldApp.get('/user-profile', function(req, res) {
 
         let data = {
             "logged" : true
@@ -151,19 +152,19 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
 
     });
 
-    app.get('/log', function(req, res) {
+    oldApp.get('/log', function(req, res) {
 
         res.render("login.html")
 
     });
 
-    app.get('/logout', function(req, res) {
+    oldApp.get('/logout', function(req, res) {
 
         res.render("home.html")
 
     });
 
-    app.post('/add-comment', function(req, res) {
+    oldApp.post('/add-comment', function(req, res) {
 
         console.log(req.body.comm)
         res.redirect("post")
@@ -172,7 +173,7 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
 
 
     // GET request for "*" send message for page not found
-    app.get('*', function(req, res) {
+    oldApp.get('*', function(req, res) {
         res.status(404).render('404.html');
     });
 
@@ -182,7 +183,7 @@ MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
         key: fs.readFileSync('./key.pem'),
         cert: fs.readFileSync('./cert.pem'),
         passphrase: 'INGI'
-    }, app).listen(port);
+    }, oldApp).listen(port);
     console.log('Server successfully started on port ' + port + ' access with ' + 'https://localhost:' + port);
 
 });

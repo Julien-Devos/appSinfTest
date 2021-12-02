@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="post-title titre2">
-                            {{game_id}} / {{title}}
+                            {{game}} / {{title}}
                             <p class="headline2 post-time">• {{date}}</p>
                         </div>
 
@@ -108,13 +108,16 @@
                             <span class="icon-Like"><t class="headline2">{{likes}}</t></span>
                         </div>
                         <div class="nb-comms">
-                            <span class="icon-Comments"><t class="headline2">12</t></span>
+                            <span class="icon-Comments"><t class="headline2">{{comments}}</t></span>
                         </div>
 
                     </a>
-                    {{/posts}}
 
                     <div class="box-divider"></div>
+
+                    {{/posts}}
+
+
 
                     <a class="post" href="post">
 
