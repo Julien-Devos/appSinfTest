@@ -99,11 +99,11 @@
                 </div>
             </div>
 
-            <form class="newPost" action="#">
+            <form class="newPost" method="post" action="/post/add">
 
                 <div class="game-select">
                     <label for="games" class="titre2">Sélectionner un jeu:</label>
-                    <select id="games" class="selectpicker headline1" data-live-search="true">
+                    <select id="games" class="selectpicker headline1" name="game" data-live-search="true">
                         <option value="gameid_1">Undertale</option>
                         <option value="gameid_2">Minecraft</option>
                         <option value="gameid_3">Mario kart</option>
@@ -114,13 +114,13 @@
 
                 <div class="titleArea">
                     <label for="post-title" class="form-label titre2">Intitulé du post</label>
-                    <input class="form-control post-text newpost-title" id="post-title" placeholder="Titre du post...">
+                    <input class="form-control post-text newpost-title" id="post-title" name="title" placeholder="Titre du post...">
                 </div>
 
                 <div class="contentArea">
                     <label for="post-content" class="form-label titre2">Contenu du post</label>
                     <textarea class="form-control post-text newpost-content formTextArea" id="post-content"
-                              placeholder="Contenu du post..." inputmode=""></textarea>
+                              placeholder="Contenu du post..." name="content" inputmode=""></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-outline-success btn-style buttonText">Soumettre</button>

@@ -31,4 +31,20 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+router.get('/newPost', async (req, res) => {
+    try{
+
+        let data = {
+            "logged" : true,
+        }
+
+        res.render('newpost.html',data);
+
+    } catch (err) {
+        if (err) throw err;
+    }
+});
+
+
 module.exports = router;
